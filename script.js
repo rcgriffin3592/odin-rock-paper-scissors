@@ -11,18 +11,65 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    let playerChoice = playerSelection.toLowerCase();
+    let playerChoiceLower = playerSelection.toLowerCase();
 
-    if (playerChoice === "rock" && computerSelection === "Scissors" || playerChoice === "scissors" && computerSelection === "Paper" || playerChoice === "paper" 
+    if (playerChoiceLower === "rock" && computerSelection === "Scissors" || playerChoiceLower === "scissors" && computerSelection === "Paper" || playerChoiceLower === "paper" 
     && computerSelection === "Rock") {
-        return `You Win! ${playerChoice} beats ${computerSelection}.`;
-    } else if (playerChoice === computerSelection.toLowerCase()) {
-        return `Draw! You both chose ${playerChoice}`;
+        return "Win";
+    } else if (playerChoiceLower === computerSelection.toLowerCase()) {
+        return "Draw";
     } else {
-        return `You Lose! ${computerSelection} beats ${playerChoice}`;
+        return "Lose";
     }
 }
 
-const playerSelection = "rock";
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+function game() {
+    let playerSelection = prompt("Choose Rock, Paper, or Scissors:");
+    let computerSelection = getComputerChoice();
+
+    if (round < 5) {
+        let result = playRound(playerSelection, computerSelection);
+        if (result === "Win") {
+            ++playerScore;
+            ++round;
+            return `You Win! ${playerSelection.toLowerCase()} beats ${computerSelection.toLowerCase()}.`;
+        } else if (result === "Draw") {
+            ++round;
+            return `Draw! You both chose ${playerSelection.toLowerCase()}`;
+        } else {
+            ++round;
+            ++computerScore;
+            return `You Lose! ${computerSelection} beats ${playerSelection.toLowerCase()}`;
+        }
+    } else {
+        let result = playRound(playerSelection, computerSelection);
+        if (result === "Win") {
+            ++playerScore;
+            ++round;        
+        } else if (result === "Lose") {
+            ++computerScore;
+            ++round;
+        } else {
+            ++round;
+        }
+
+        if (playerScore > computerScore) {
+            return `You Win! ${playerScore} to ${computerScore}`;
+        } else if (playerScore < computerScore) {
+            return `You Lose! ${computerScore} to ${playerScore}`;
+        } else {
+            return `Looks like we have a tie!`
+        }
+    }
+}
+
+let round = 1
+let playerScore = 0
+let computerScore = 0
+
+console.log(game());
+console.log(game());
+console.log(game());
+console.log(game());
+console.log(game());
+
